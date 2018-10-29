@@ -1,6 +1,8 @@
 package com.sr.loganalyser.parsers.csv.model;
 
 
+import org.apache.commons.csv.CSVRecord;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -116,4 +118,9 @@ public class LogLineEntry {
         this.setDateTime(LocalDateTime.parse(dateTimeString, DATE_TIME_FORMATTER));
         return this;
     }
+
+//    @Override
+//    public String toString() {
+//        return  CSVRecord(sessionId,httpMethod,baseURL,dateTime.toString()).toString();
+//    }
 }

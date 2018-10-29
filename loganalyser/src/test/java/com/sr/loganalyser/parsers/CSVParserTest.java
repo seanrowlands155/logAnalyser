@@ -44,7 +44,7 @@ public class CSVParserTest {
 
 
         final List<LogLineEntry> logLineEntries = CSVParser.parseCsvToLogLineEntries(csvInput);
-        Map<String, List<LogLineEntry>> resultSessionMap = CSVParser.mapBySessionID(logLineEntries);
+        final Map<String, Map<String,List<LogLineEntry>>> resultSessionMap = CSVParser.mapBySessionID(logLineEntries);
         Assert.assertEquals(1, resultSessionMap.size());
         Assert.assertEquals(16, resultSessionMap.get("01B031744910BA97E686D890741DEBB6").size());
     }
@@ -57,7 +57,7 @@ public class CSVParserTest {
 
 
         final List<LogLineEntry> logLineEntries = CSVParser.parseCsvToLogLineEntries(csvInput);
-        Map<String, List<LogLineEntry>> resultSessionMap = CSVParser.mapBySessionID(logLineEntries);
+        final Map<String, Map<String,List<LogLineEntry>>> resultSessionMap = CSVParser.mapBySessionID(logLineEntries);
         Assert.assertEquals(2, resultSessionMap.size());
         resultSessionMap.keySet().forEach(System.err::println);
 
