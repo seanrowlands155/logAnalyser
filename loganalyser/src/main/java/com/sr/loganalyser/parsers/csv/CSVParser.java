@@ -31,8 +31,11 @@ public class CSVParser {
         return logLineEntries;
     }
 
-    public static Map<String, List<LogLineEntry>> mapBySessionID(final List<LogLineEntry> logLineEntries) {
-        return logLineEntries.stream().collect(groupingBy(LogLineEntry::getSessionId));
+    public static Map<String, Map<String,List<LogLineEntry>>> mapBySessionID(final List<LogLineEntry> logLineEntries) {
+        return logLineEntries.stream()
+                .sorted((o1, o2) -> o2.getDateTime()
+                        .compareTo(o1.getDateTime()))
+                .collect(groupingBy((LogLineEntry::getSessionId), groupingBy(LogLineEntry::getBaseURL)));
     }
 
 }

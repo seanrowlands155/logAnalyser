@@ -9,10 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RunWith(SpringRunner.class)
 public class CSVParserTest {
@@ -23,10 +26,9 @@ public class CSVParserTest {
     @Test
     public void parseCSV() throws IOException {
 
-        final ByteArrayInputStream csvInput = new ByteArrayInputStream(resourceLoader
-                .getResource("classpath:TestData.csv")
-                .getInputStream()
-                .readAllBytes());
+        final BufferedReader reader = new BufferedReader(new InputStreamReader(resourceLoader
+                .getResource("classpath:TestData.csv").getInputStream()));
+        final ByteArrayInputStream csvInput = new ByteArrayInputStream(reader.lines().collect(Collectors.joining("\n")).getBytes());
 
         final List<LogLineEntry> result = CSVParser.parseCsvToLogLineEntries(csvInput);
         Assert.assertEquals("Result Size Correct", result.size(), 16);
@@ -36,10 +38,10 @@ public class CSVParserTest {
 
     @Test
     public void mapBySessionID() throws IOException {
-        final ByteArrayInputStream csvInput = new ByteArrayInputStream(resourceLoader
-                .getResource("classpath:TestData.csv")
-                .getInputStream()
-                .readAllBytes());
+        final BufferedReader reader = new BufferedReader(new InputStreamReader(resourceLoader
+                .getResource("classpath:TestData.csv").getInputStream()));
+        final ByteArrayInputStream csvInput = new ByteArrayInputStream(reader.lines().collect(Collectors.joining("\n")).getBytes());
+
 
         final List<LogLineEntry> logLineEntries = CSVParser.parseCsvToLogLineEntries(csvInput);
         Map<String, List<LogLineEntry>> resultSessionMap = CSVParser.mapBySessionID(logLineEntries);
@@ -49,14 +51,15 @@ public class CSVParserTest {
 
     @Test
     public void mapBySessionIdMultipleSessions() throws IOException {
-        final ByteArrayInputStream csvInput = new ByteArrayInputStream(resourceLoader
-                .getResource("classpath:TestDataTwoSessions.csv")
-                .getInputStream()
-                .readAllBytes());
+        final BufferedReader reader = new BufferedReader(new InputStreamReader(resourceLoader
+                .getResource("classpath:TestDataTwoSessions.csv").getInputStream()));
+        final ByteArrayInputStream csvInput = new ByteArrayInputStream(reader.lines().collect(Collectors.joining("\n")).getBytes());
+
 
         final List<LogLineEntry> logLineEntries = CSVParser.parseCsvToLogLineEntries(csvInput);
         Map<String, List<LogLineEntry>> resultSessionMap = CSVParser.mapBySessionID(logLineEntries);
         Assert.assertEquals(2, resultSessionMap.size());
+        resultSessionMap.keySet().forEach(System.err::println);
 
     }
 }

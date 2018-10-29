@@ -11,8 +11,8 @@ public class SessionLogLineAnalyser {
 
     public static Map<String, List<UrlStatSummary>> getUrlSummary(final Map<String, List<LogLineEntry>> sessionLogMap) {
 
-        final Map<String, List<UrlStatSummary>> result = sessionLogMap.entrySet()
-                .stream().map();
+        sessionLogMap.entrySet().stream().map(stringListEntry -> stringListEntry.getKey());
+
         return null;
     }
 }
